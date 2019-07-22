@@ -3,14 +3,15 @@ import './app.css';
 import readTextFile from './../data/read-text-file';
 import uuid from 'uuid';
 
-import Details from './../details';
 import ItemList from './../item-list';
+import Chart from './../chart';
 
 export default class App extends Component {
-
   state = {
     data: null,
-    selectedItem: null
+    selectedItem: null,
+    currentPage: 1, 
+    itemsPerPage: 12
   }
 
   componentDidMount() {
@@ -22,8 +23,7 @@ export default class App extends Component {
     this.state.data.map((item) => {
       if(item['id'] === id) {
         selectedItem = item;
-      } else {
-        return;
+        return selectedItem;
       }
     });
     this.setState({
@@ -46,14 +46,31 @@ export default class App extends Component {
       });
   }
 
+  paginate = (currentPage) => {
+    this.setState({
+      currentPage
+    });
+  }
+
   render() {
-    const { data, selectedItem } = this.state;
+    const { data, selectedItem, currentPage, itemsPerPage } = this.state;
+    
     if(data) {
+
+      // Get current items
+      const indexOfLastItem = currentPage * itemsPerPage;
+      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
       return (
         <main className="container">
           <section className="jumbotron main-section">
-            <ItemList data={data} onClickItem={this.getSelectedItem}/>
-            <Details selectedItem={selectedItem} />
+            <ItemList data={currentItems} 
+                      onClickItem={this.getSelectedItem} 
+                      itemsPerPage={itemsPerPage} 
+                      totalItems={data.length} 
+                      paginate={this.paginate}/>
+            <Chart selectedItem={selectedItem}/> 
           </section>
         </main>
       );
