@@ -11,7 +11,8 @@ export default class App extends Component {
     data: null,
     selectedItem: null,
     currentPage: 1, 
-    itemsPerPage: 12
+    itemsPerPage: 12,
+    paginationNumber: 10
   }
 
   componentDidMount() {
@@ -47,7 +48,7 @@ export default class App extends Component {
     let jointISO, newItem, newData;
     let countISO = 0;
     let newItems = [];
-    const COLORS = ['#E74C3C', 'white', 'blue'];
+    const COLORS = ['#E74C3C', 'white', 'rgb(226, 226, 23)'];
     for (let i = 0; i < data.length; i++) {
 
       newData = [
@@ -82,7 +83,7 @@ export default class App extends Component {
         newItem['datasets'].push({
           label: `IMR (${data[i]['Uncertainty bounds*']})`,
           data: newData,
-          backgroundColor: COLORS[countISO++]
+          backgroundColor: COLORS[countISO]
         });
       }
       countISO++
@@ -100,8 +101,29 @@ export default class App extends Component {
     });
   }
 
+  pageINC = () => {
+    this.setState(({currentPage, data, itemsPerPage, paginationNumber}) => {
+      if(currentPage < data.length/itemsPerPage){
+        return {
+          currentPage: currentPage + 1,
+          
+        }
+      }
+    })
+  }
+
+  pageDEC = () => {
+    this.setState(({currentPage}) => {
+      if(currentPage > 1) {
+        return {
+          currentPage: currentPage - 1,
+        }
+      }
+    })
+  }
+
   render() {
-    const { data, selectedItem, currentPage, itemsPerPage } = this.state;
+    const { data, selectedItem, currentPage, itemsPerPage, paginationNumber } = this.state;
     
     if(!data) {
       return <div>Loading...</div>;
@@ -119,7 +141,11 @@ export default class App extends Component {
                     onClickItem={this.getSelectedItem} 
                     itemsPerPage={itemsPerPage} 
                     totalItems={data.length} 
-                    paginate={this.paginate}/>
+                    paginate={this.paginate}
+                    paginationNumber={paginationNumber}
+                    pageINC={this.pageINC}
+                    pageDEC={this.pageDEC}
+                    currentPage={currentPage}/>
           <Chart selectedItem={selectedItem}/> 
         </section>
       </main>

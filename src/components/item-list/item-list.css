@@ -1,5 +1,11 @@
+.list {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .list-group {
-  max-width: 30rem;
+  width: 30rem;
+  margin-bottom: 1rem;
 }
 
 .list-group-item {
