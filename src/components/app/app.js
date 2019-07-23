@@ -19,13 +19,16 @@ export default class App extends Component {
   }
 
   getSelectedItem = (id) => {
+    const { data } = this.state;
     let selectedItem;
-    this.state.data.map((item) => {
-      if(item['id'] === id) {
-        selectedItem = item;
-        return selectedItem;
+
+    for(let i = 0; i < data.length; i++) {
+      console.log(data)
+      if(data[i].id === id) {
+        selectedItem = data[i];
       }
-    });
+    }
+
     this.setState({
       selectedItem
     });
@@ -103,7 +106,7 @@ export default class App extends Component {
     if(!data) {
       return <div>Loading...</div>;
     } 
-    console.log(data);
+    
     // Get current items
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;

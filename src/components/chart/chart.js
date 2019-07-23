@@ -17,19 +17,20 @@ export default class Chart extends Component {
   }
 
   render() {
-    const { selectedItem } = this.props;
-
-    if (!selectedItem) {
+    const { chartData } = this.state;
+    
+    if (!chartData) {
       return (
         <div className="chart text">Select from the list, please.</div>
       );
     }
+    
+    const { countryName } = chartData;
 
     return (
       <div className="chart">
-        <h4 className="text">Country name: {selectedItem['Country Name']}</h4>
-        <h5 className="text">Uncertainty bounds: {selectedItem['Uncertainty bounds*']}</h5>
-        <Line data={this.state.chartData} 
+        <h4 className="text">Country name: {countryName}</h4>
+        <Line data={chartData} 
                      width={3}
                      height={2}
                      options={{
