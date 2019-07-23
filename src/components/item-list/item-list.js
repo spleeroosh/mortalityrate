@@ -11,10 +11,10 @@ const ItemList = ({ data, onClickItem, itemsPerPage, totalItems, paginate }) => 
       <ul className="list-group">
         {data.map((item) => {
           return <li className={listClassName} key={item['id']}
-                    onClick={() => onClickItem(item['id'])}>{`${item['Country Name']}, UB: ${item['Uncertainty bounds*']}` }</li>
+                    onClick={() => onClickItem(item['id'])}>{`${item['countryName']}` }</li>
         })}
       </ul>
-      <Pagination itemsPerPage={itemsPerPage} totalItems={150} paginate={paginate}/>
+      <Pagination itemsPerPage={itemsPerPage} totalItems={132} paginate={paginate}/>
     </div>
     
   );
